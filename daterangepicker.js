@@ -56,7 +56,7 @@
         this.alwaysShowCalendars = false;
         this.ranges = {};
 
-        this.opens = 'right';
+        this.opens = 'right'; //left,right or auto
         if (this.element.hasClass('pull-right'))
             this.opens = 'left';
 
@@ -1097,6 +1097,40 @@
                         left: containerLeft,
                         right: 'auto'
                     });
+                }
+            } else if (this.opens == 'auto') {
+                var containerRight = parentRightEdge - this.element.offset().left - this.element.outerWidth();
+                var containerLeft = this.element.offset().left - parentOffset.left;
+                if (containerLeft < containerRight) {
+                    this.container.removeClass('opensleft').addClass('opensright');
+                    if (containerLeft + containerWidth > $(window).width()) {
+                        this.container.css({
+                            top: containerTop,
+                            left: 'auto',
+                            right: 0
+                        });
+                    } else {
+                        this.container.css({
+                            top: containerTop,
+                            left: containerLeft,
+                            right: 'auto'
+                        });
+                    }
+                } else {
+                    this.container.removeClass('opensright').addClass('opensleft');
+                    if (containerWidth + containerRight > $(window).width()) {
+                        this.container.css({
+                            top: containerTop,
+                            right: 'auto',
+                            left: 9
+                        });
+                    } else {
+                        this.container.css({
+                            top: containerTop,
+                            right: containerRight,
+                            left: 'auto'
+                        });
+                    }
                 }
             } else {
                 var containerLeft = this.element.offset().left - parentOffset.left;
